@@ -1,6 +1,6 @@
 # fosterhome
 
-FosterHome is a connectivity app
+FosterHome is a connectivity app with the idea of welfare for pets
 
 ## Getting Started
 
