@@ -1,16 +1,30 @@
 # fosterhome
 
-A new Flutter project.
+FosterHome is a connectivity app
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This app contains all the basic operations required in todays real world apps
 
-A few resources to get you started if this is your first Flutter project:
+Frameworks and languages used:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+- Dart(Frontend)
+- Express.Js(Backend)
+- MongoDB(Database)
+- Heroku(Hosting Server)
+- SupaBase(Storage Service)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Features:
+
+- Login/SignUp
+- Adding posts
+- liking and commenting on posts
+- Fetching users based on their location and display the users in that area
+- search users
+
+Tested devices:
+
+This app was debugged only in Poco F1 and Google_Pixel_3A
+
+
+
