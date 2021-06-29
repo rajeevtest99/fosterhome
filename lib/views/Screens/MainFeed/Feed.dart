@@ -90,7 +90,6 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
 
   _checkUserID() async {
     userID = await (_idPref.readId(USER_ID_KEY));
-    print(userID);
   }
 
   @override

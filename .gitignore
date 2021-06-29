@@ -45,6 +45,4 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-/lib/consts/api_key.dart
-/lib/consts/supabase_key.dart
-/lib/consts/token_id_username.dart
+

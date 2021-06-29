@@ -22,7 +22,7 @@ class Following extends StatefulWidget {
 class _FollowingState extends State<Following> {
   final ConstantColors constantColors = ConstantColors();
   final Api _api = Api();
-  Future<CurrentUserPostModel>? currentUserPostModel;
+
   Future<ProfileModel>? profileModel;
   Future<UserProfileModel>? otheruser;
   UserIdPref _idPref = UserIdPref();

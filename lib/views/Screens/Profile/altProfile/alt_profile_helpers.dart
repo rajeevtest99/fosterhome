@@ -10,6 +10,8 @@ import 'package:fosterhome/models/currentUser/CurrentUserPostModel.dart';
 import 'package:fosterhome/utils/utils.dart';
 
 import 'package:fosterhome/views/Screens/Profile/Followers/followers.dart';
+import 'package:fosterhome/views/Screens/Profile/altProfile/followers/alt_followers.dart';
+import 'package:fosterhome/views/Screens/Profile/altProfile/following/alt_following.dart';
 import 'package:fosterhome/views/Screens/Profile/following/following.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -98,7 +100,8 @@ class AltProfileHelpers extends ChangeNotifier {
         Navigator.push(
             context,
             PageTransition(
-                child: Followers(), type: PageTransitionType.rightToLeft));
+                child: Altfollowers(userID: snapshot.data!.id!),
+                type: PageTransitionType.rightToLeft));
       },
       child: Column(
         children: [
@@ -122,7 +125,10 @@ class AltProfileHelpers extends ChangeNotifier {
         Navigator.push(
             context,
             PageTransition(
-                child: Following(), type: PageTransitionType.rightToLeft));
+                child: Altfollowing(
+                  userID: snapshot.data!.id,
+                ),
+                type: PageTransitionType.rightToLeft));
       },
       child: Column(
         children: [
