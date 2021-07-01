@@ -134,9 +134,6 @@ class _HomePageState extends State<HomePage>
             FutureBuilder<ProfileModel>(
               future: profileModel,
               builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                }
                 if (snapshot.hasData) {
                   return Padding(
                     padding: const EdgeInsets.only(top: 12, left: 8, right: 8),
@@ -166,7 +163,7 @@ class _HomePageState extends State<HomePage>
                     ),
                   );
                 } else {
-                  return Center(child: CircularProgressIndicator());
+                  return Container();
                 }
               },
             ),
@@ -186,7 +183,7 @@ class _HomePageState extends State<HomePage>
                           showSearch(context: context, delegate: SearchPage());
                         },
                         child: Container(
-                          height: MediaQuery.of(context).size.height * 0.05,
+                          height: MediaQuery.of(context).size.height * 0.0575,
                           width: MediaQuery.of(context).size.width * 0.9,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),

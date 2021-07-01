@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fosterhome/consts/colors.dart';
 import 'package:fosterhome/consts/supabase_key.dart';
 import 'package:fosterhome/consts/token_id_username.dart';
@@ -51,6 +52,14 @@ class _AddPostState extends State<AddPost> {
 
   String? postid = "";
 
+  //loading screen bool
+
+  bool loading = false;
+
+  final spinkit = SpinKitThreeBounce(
+    color: Color(0xff7868e6),
+  );
+
   //supabase url, key and client creation
 
   static String url = SUPABSE_URL;
@@ -79,29 +88,35 @@ class _AddPostState extends State<AddPost> {
           actions: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: RawMaterialButton(
-                constraints: BoxConstraints.tight(Size(90, 5)),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5)),
-                onPressed: () async {
-                  String? id = await (_idPref.readId(USER_ID_KEY));
-                  Map<String, dynamic> addPost = {
-                    "description": postCont.text,
-                    "userId": id
-                  };
+              child: loading
+                  ? spinkit
+                  : RawMaterialButton(
+                      constraints: BoxConstraints.tight(Size(90, 5)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                      onPressed: () async {
+                        setState(() {
+                          loading = true;
+                        });
+                        String? id = await (_idPref.readId(USER_ID_KEY));
+                        Map<String, dynamic> addPost = {
+                          "description": postCont.text,
+                          "userId": id
+                        };
 
-                  var response = await _api.post("/posts/create", addPost);
-                  if (response.statusCode == 200 ||
-                      response.statusCode == 201) {
-                    print(response);
-                    Map<String, dynamic> postOutput =
-                        json.decode(response.body);
-                    print(postOutput['_id']);
-                    postid = postOutput['_id'];
+                        var response =
+                            await _api.post("/posts/create", addPost);
+                        if (response.statusCode == 200 ||
+                            response.statusCode == 201) {
+                          print(response);
+                          Map<String, dynamic> postOutput =
+                              json.decode(response.body);
+                          print(postOutput['_id']);
+                          postid = postOutput['_id'];
 
-                    // how to upload files to supabase
+                          // how to upload files to supabase
 
-                    /*if (pickedFile != null) {
+                          /*if (pickedFile != null) {
                     final file = File(pickedFile.files.first.path!);
                     var res = await client.storage
                         .from('postuploads')
@@ -113,36 +128,40 @@ class _AddPostState extends State<AddPost> {
                     print("${urlres.data}");
                   }*/
 
-                    if (_image != null) {
-                      final file = File(_image!.path);
-                      var res = await client.storage
-                          .from('postuploads')
-                          .upload(postid!, file);
-                      print(res);
-                      final urlres = await client.storage
-                          .from('postuploads')
-                          .createSignedUrl(postid!, 6480000000000000000);
-                      print("${urlres.data}");
-                      Map<String, dynamic> addImagepost = {
-                        "image": urlres.data,
-                        "userId": id
-                      };
-                      var imageupload =
-                          await _api.put("posts/$postid/update", addImagepost);
-                      if (imageupload.statusCode == 200 ||
-                          imageupload.statusCode == 201) {
-                        String postOutput = json.decode(imageupload.body);
-                        print(postOutput);
-                      }
-                    }
-                  }
-                },
-                child: Text("add post",
-                    style: TextStyle(
-                      color: Colors.white,
-                    )),
-                fillColor: constantColors.lightpurple,
-              ),
+                          if (_image != null) {
+                            final file = File(_image!.path);
+                            var res = await client.storage
+                                .from('postuploads')
+                                .upload(postid!, file);
+                            print(res);
+                            final urlres = await client.storage
+                                .from('postuploads')
+                                .createSignedUrl(postid!, 6480000000000000000);
+                            print("${urlres.data}");
+                            Map<String, dynamic> addImagepost = {
+                              "image": urlres.data,
+                              "userId": id
+                            };
+                            var imageupload = await _api.put(
+                                "posts/$postid/update", addImagepost);
+                            if (imageupload.statusCode == 200 ||
+                                imageupload.statusCode == 201) {
+                              String postOutput = json.decode(imageupload.body);
+                              print(postOutput);
+                            }
+                          }
+                          setState(() {
+                            loading = false;
+                          });
+                          Navigator.pop(context);
+                        }
+                      },
+                      child: Text("add post",
+                          style: TextStyle(
+                            color: Colors.white,
+                          )),
+                      fillColor: constantColors.lightpurple,
+                    ),
             )
           ],
         ),

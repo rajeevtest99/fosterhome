@@ -7,6 +7,7 @@ import 'package:page_transition/page_transition.dart';
 
 class LoginHelpers extends ChangeNotifier {
   final ConstantColors constantColors = ConstantColors();
+  bool isVisibility = true;
 
   Widget welcomeLottie(BuildContext context) {
     return Lottie.asset("assets/lottie/welcome.json", width: 100, height: 100);
@@ -69,8 +70,24 @@ class LoginHelpers extends ChangeNotifier {
             cursorWidth: 1,
             controller: password,
             textAlign: TextAlign.left,
+            obscureText: isVisibility,
             style: TextStyle(color: constantColors.lightpurple),
             decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  icon: isVisibility
+                      ? Icon(
+                          Icons.visibility_off,
+                          color: constantColors.lightpurple,
+                        )
+                      : Icon(
+                          Icons.visibility,
+                          color: constantColors.purple,
+                        ),
+                  onPressed: () {
+                    isVisibility = !isVisibility;
+                    notifyListeners();
+                  },
+                ),
                 errorText: errPassText,
                 hintText: "Password",
                 contentPadding: EdgeInsets.all(8.0),

@@ -42,8 +42,8 @@ class UserProfileModel {
   });
 
   String? profilePicture;
-  List<String>? boopers;
-  List<String>? booping;
+  List<dynamic>? boopers;
+  List<dynamic>? booping;
   String? fostered;
   bool? isAdmin;
   bool? hasFostered;
@@ -72,8 +72,8 @@ class UserProfileModel {
   factory UserProfileModel.fromJson(Map<String, dynamic> json) =>
       UserProfileModel(
         profilePicture: json["profilePicture"],
-        boopers: List<String>.from(json["boopers"].map((x) => x)),
-        booping: List<String>.from(json["booping"].map((x) => x)),
+        boopers: List<dynamic>.from(json["boopers"].map((x) => x)),
+        booping: List<dynamic>.from(json["booping"].map((x) => x)),
         fostered: json["fostered"],
         isAdmin: json["isAdmin"],
         hasFostered: json["hasFostered"],

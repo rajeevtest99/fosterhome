@@ -10,7 +10,9 @@ import 'package:fosterhome/consts/token_id_username.dart';
 import 'package:fosterhome/services/api.dart';
 import 'package:fosterhome/services/token_id_username_prefs/shared_prefs.dart';
 import 'package:fosterhome/services/token_id_username_prefs/userIdPrefs.dart';
+import 'package:fosterhome/views/HomePage/homepage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:supabase/supabase.dart';
 
 class AboutHelpers extends ChangeNotifier {
@@ -473,6 +475,11 @@ class AboutHelpers extends ChangeNotifier {
                   }
 
                   isLoading = false;
+                  Navigator.pushReplacement(
+                      context,
+                      PageTransition(
+                          child: HomePage(),
+                          type: PageTransitionType.bottomToTop));
                   notifyListeners();
                   print(token);
                   print(id);

@@ -71,9 +71,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                   ],
                 );
               } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
+                return Container();
               }
             },
           ),

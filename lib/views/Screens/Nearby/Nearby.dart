@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:fosterhome/consts/colors.dart';
 import 'package:fosterhome/consts/token_id_username.dart';
 import 'package:fosterhome/models/UserProfileModel/AllUsersModel.dart';
-import 'package:fosterhome/models/UserProfileModel/UserProfileModel.dart/UserProfileModel.dart';
 
 import 'package:fosterhome/models/currentUser/currentUser.dart';
 
@@ -44,6 +43,7 @@ class _NearbyState extends State<Nearby> with SingleTickerProviderStateMixin {
   String? userID = '';
   bool isFollowing = false;
   String? userName = '';
+  bool? display;
   UserNamePref _userNamePref = UserNamePref();
 
   Future<Position?>? _determinePositon() async {
@@ -78,6 +78,7 @@ class _NearbyState extends State<Nearby> with SingleTickerProviderStateMixin {
         currentCity = place.locality;
         currentCountry = place.country;
         loading = true;
+
         print(currentPositon);
       });
     } catch (err) {
@@ -91,8 +92,8 @@ class _NearbyState extends State<Nearby> with SingleTickerProviderStateMixin {
       "userId": id,
       "latitude": currentPositon!.latitude.toString(),
       "longitude": currentPositon!.longitude.toString(),
-      "city": currentCity,
-      "country": currentCountry
+      "country": currentCountry,
+      "city": currentCity
     };
     var response = await _api.put("/user/$id/update", updatelocation);
     if (response.statusCode == 200) {
@@ -112,8 +113,8 @@ class _NearbyState extends State<Nearby> with SingleTickerProviderStateMixin {
     _checkUserID();
     _checkUserName();
 
-    Timer(Duration(milliseconds: 300), _determinePositon);
-    Timer(Duration(milliseconds: 1500), _updateLocation);
+    Timer(Duration(milliseconds: 500), _determinePositon);
+    Timer(Duration(milliseconds: 1000), _updateLocation);
     getAllUsersModel = GetAllUserServices().getAllUsers();
   }
 
@@ -151,6 +152,9 @@ class _NearbyState extends State<Nearby> with SingleTickerProviderStateMixin {
               future: getAllUsersModel,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
+                  var contains = snapshot.data!.allusers!
+                      .where((element) => element.city == currentCity);
+
                   return Column(
                     children: [
                       Padding(
@@ -186,8 +190,14 @@ class _NearbyState extends State<Nearby> with SingleTickerProviderStateMixin {
                             itemCount: snapshot.data!.allusers!.length,
                             itemBuilder: (context, index) {
                               var users = snapshot.data!.allusers![index];
-                              if (users.city == currentCity &&
-                                  users.id != userID) {
+
+                              if (contains.isEmpty) {
+                                display = false;
+                              } else {
+                                display = true;
+                              }
+
+                              if (users.city == currentCity) {
                                 return InkWell(
                                   onTap: () {
                                     Navigator.push(

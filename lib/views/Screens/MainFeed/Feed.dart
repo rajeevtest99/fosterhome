@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:fosterhome/Widgets/Postcard.dart';
 import 'package:fosterhome/Widgets/shimmerTile.dart';
@@ -54,36 +53,11 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
 
   //animation
   bool? isLiked;
-  late AnimationController _iconCont;
-  late Animation<double> _iconAnim;
 
   @override
   void initState() {
     super.initState();
     _detailPost = FeedServices().getFeed();
-    _iconCont = AnimationController(
-        duration: Duration(milliseconds: 300),
-        reverseDuration: Duration(milliseconds: 300),
-        vsync: this);
-    _iconAnim = TweenSequence(<TweenSequenceItem<double>>[
-      TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 20, end: 26), weight: 26),
-      TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 26, end: 20), weight: 20)
-    ]).animate(_iconCont);
-
-    _iconCont.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        setState(() {
-          isLiked = true;
-        });
-      }
-      if (status == AnimationStatus.dismissed) {
-        setState(() {
-          isLiked = false;
-        });
-      }
-    });
 
     _checkUserID();
   }
@@ -99,6 +73,29 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
         body: FutureBuilder<DetailPost?>(
           future: _detailPost,
           builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                  child: Lottie.asset("assets/lottie/loading.json",
+                      height: MediaQuery.of(context).size.height * 0.1,
+                      frameRate: FrameRate(60)));
+            }
+            if (snapshot.data!.feed!.length == 0) {
+              return Center(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "your feed is empty,",
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                  ),
+                  Text(
+                    "start following people",
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                  ),
+                ],
+              ));
+            }
             if (snapshot.hasData) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -136,7 +133,6 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
                         itemBuilder: (context, index) {
                           var posts = snapshot.data!.feed![index];
 
-                          print(snapshot.data!.feed!.length.toString());
                           return Padding(
                             padding: const EdgeInsets.all(4.0),
                             child: Container(
@@ -225,20 +221,32 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
                                                 print('share');
                                               },
                                               options: posts.userId == userID
-                                                  ? IconButton(
-                                                      icon:
-                                                          Icon(Icons.more_vert),
-                                                      onPressed: () {
-                                                        Navigator.push(
-                                                            context,
-                                                            PageTransition(
-                                                                child: UpdatePost(
-                                                                    postId: posts
-                                                                        .id),
-                                                                type: PageTransitionType
-                                                                    .bottomToTop));
-                                                      },
-                                                    )
+                                                  ? PopupMenuButton<int>(
+                                                      onSelected: (item) =>
+                                                          selected(context,
+                                                              item, posts.id!),
+                                                      itemBuilder: (context) =>
+                                                          [
+                                                            PopupMenuItem(
+                                                                value: 0,
+                                                                child: Row(
+                                                                  children: [
+                                                                    Icon(Icons
+                                                                        .edit),
+                                                                    Text("edit")
+                                                                  ],
+                                                                )),
+                                                            PopupMenuItem(
+                                                                value: 1,
+                                                                child: Row(
+                                                                  children: [
+                                                                    Icon(Icons
+                                                                        .delete),
+                                                                    Text(
+                                                                        "delete")
+                                                                  ],
+                                                                )),
+                                                          ])
                                                   : Container(),
                                               tap: () async {
                                                 Map<String, dynamic>
@@ -372,169 +380,60 @@ class _FeedState extends State<Feed> with SingleTickerProviderStateMixin {
     );
   }
 
-  Widget postCard(
-    BuildContext context,
-    String? firstname,
-    String? lastname,
-    String? profileP,
-    String? time,
-    String? description,
-    String? commentno,
-    String? likeno,
-    Container? image,
-    void Function()? comment,
-    void Function()? like,
-    void Function()? share,
-  ) {
-    return Container(
-        child: Column(
-      children: [
-        Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(profileP!),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Text(
-                      "${firstname!} ${lastname!}",
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: constantColors.purple,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.timer,
-                          color: Colors.grey,
-                          size: MediaQuery.of(context).size.width * 0.035,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                          child: Text(
-                            time!,
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+  void selected(BuildContext context, int item, String postId) {
+    switch (item) {
+      case 0:
+        Navigator.push(
+            context,
+            PageTransition(
+                child: UpdatePost(
+                  postId: postId,
+                ),
+                type: PageTransitionType.fade));
+        break;
+      case 1:
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text(
+                  "are you sure you want to delete the post?",
+                  style: TextStyle(fontWeight: FontWeight.w600),
+                ),
+                actions: [
+                  MaterialButton(
+                      color: constantColors.purple,
+                      onPressed: () async {
+                        Map<String, dynamic> deleteinput = {
+                          "id": postId,
+                          "userId": "$userID"
+                        };
+                        var response = await _api.delete(
+                            "posts/$postId/delete", deleteinput);
+                        if (response == 200 || response == 201) {
+                          String output = json.decode((response));
+                          print(response);
+                          print(output);
+                        }
+                        Navigator.pop(context);
+                        setState(() {
+                          _detailPost = FeedServices().getFeed();
+                        });
+                      },
+                      child: Text(
+                        "Yes",
+                        style: TextStyle(color: Colors.white),
+                      )),
+                  MaterialButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text("no",
+                        style: TextStyle(color: constantColors.purple)),
+                  )
                 ],
-              ),
-            ),
-            Spacer(
-              flex: 1,
-            ),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Text(
-            description!,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-          ),
-        ),
-        image!,
-        Container(
-          /*decoration: BoxDecoration(
-          border: Border(
-        top: BorderSide(width: 0.25, color: Colors.grey),
-      )),*/
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                /*decoration: BoxDecoration(
-                border:
-                    Border(right: BorderSide(width: 0.5, color: Colors.grey))),*/
-                width: MediaQuery.of(context).size.width * 0.315,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: AnimatedBuilder(
-                          animation: _iconAnim,
-                          builder: (BuildContext context, _) {
-                            return IconButton(
-                                iconSize: _iconAnim.value,
-                                icon: SvgPicture.asset(
-                                  isLiked!
-                                      ? "assets/icons/liked.svg"
-                                      : "assets/icons/unlike.svg",
-                                  height: _iconAnim.value,
-                                  width: _iconAnim.value,
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    isLiked!
-                                        ? _iconCont.reverse()
-                                        : _iconCont.forward();
-                                  });
-                                });
-                          }),
-                    ),
-                    Text(likeno!),
-                  ],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.32,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    IconButton(
-                        icon: Padding(
-                          padding: const EdgeInsets.all(7.0),
-                          child: SvgPicture.asset(
-                            "assets/icons/comment.svg",
-                            color: constantColors.purple,
-                          ),
-                        ),
-                        onPressed: comment!),
-                    Text(
-                      commentno!,
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.315,
-                /*decoration: BoxDecoration(
-                border:
-                    Border(left: BorderSide(width: 0.5, color: Colors.grey))),*/
-                child: IconButton(
-                    icon: Padding(
-                      padding: const EdgeInsets.all(7.5),
-                      child: SvgPicture.asset("assets/icons/share.svg",
-                          color: constantColors.lightpurple),
-                    ),
-                    onPressed: share!),
-              ),
-            ],
-          ),
-        ),
-      ],
-    ));
+              );
+            });
+    }
   }
 }

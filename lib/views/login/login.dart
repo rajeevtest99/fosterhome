@@ -38,7 +38,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   bool validate = false;
   bool circular = false;
   final spinkit = SpinKitThreeBounce(
-    color: Colors.purple,
+    color: Color(0xff7868e6),
   );
 
   //error text

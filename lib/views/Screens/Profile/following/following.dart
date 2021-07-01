@@ -5,7 +5,7 @@ import 'package:fosterhome/Widgets/shimmerTile.dart';
 import 'package:fosterhome/consts/colors.dart';
 import 'package:fosterhome/consts/token_id_username.dart';
 import 'package:fosterhome/models/UserProfileModel/UserProfileModel.dart/UserProfileModel.dart';
-import 'package:fosterhome/models/currentUser/CurrentUserPostModel.dart';
+
 import 'package:fosterhome/models/currentUser/currentUser.dart';
 import 'package:fosterhome/services/UserProfileServices/UserProfileServices.dart';
 import 'package:fosterhome/services/api.dart';
@@ -47,6 +47,19 @@ class _FollowingState extends State<Following> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0.75,
+          leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: constantColors.purple,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
         body: Container(
           color: Colors.white,
           // child:
@@ -56,7 +69,25 @@ class _FollowingState extends State<Following> {
             future: profileModel,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator();
+                return ListView.builder(
+                    itemCount: 5,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: ShimmerWidget.circular(width: 50, height: 50),
+                        title: Align(
+                          alignment: Alignment.centerLeft,
+                          child: ShimmerWidget.rectangular(
+                              width: MediaQuery.of(context).size.width * 0.275,
+                              height: 10),
+                        ),
+                        subtitle: Align(
+                          alignment: Alignment.centerLeft,
+                          child: ShimmerWidget.rectangular(
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              height: 10),
+                        ),
+                      );
+                    });
               }
               if (snapshot.data!.data!.booping!.length == 0) {
                 return Center(
@@ -130,7 +161,7 @@ class _FollowingState extends State<Following> {
                                     ? following(snapshot.data!.id!)
                                     : follow(snapshot.data!.id!));
                           } else {
-                            return CircularProgressIndicator();
+                            return Container();
                           }
                         },
                       );

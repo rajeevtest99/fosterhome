@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:fosterhome/Widgets/Postcard.dart';
+import 'package:fosterhome/Widgets/shimmerTile.dart';
 import 'package:fosterhome/consts/colors.dart';
 import 'package:fosterhome/consts/token_id_username.dart';
 import 'package:fosterhome/models/UserProfileModel/UserProfileModel.dart/UserProfileModel.dart';
@@ -74,11 +75,6 @@ class _AltProfileState extends State<AltProfile> {
           title: FutureBuilder<UserProfileModel>(
             future: userProfileModel,
             builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
               if (snapshot.hasData) {
                 return Text(
                   snapshot.data!.username!,
@@ -86,9 +82,7 @@ class _AltProfileState extends State<AltProfile> {
                       color: Colors.black, fontWeight: FontWeight.w400),
                 );
               } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
+                return Container();
               }
             },
           ),
@@ -132,7 +126,7 @@ class _AltProfileState extends State<AltProfile> {
                                       .header(context, snapshot,
                                           currentUserPostModel),
                                   Provider.of<AltProfileHelpers>(context,
-                                          listen: false)
+                                          listen: true)
                                       .nameAndAbout(
                                     context,
                                     snapshot,
@@ -150,13 +144,14 @@ class _AltProfileState extends State<AltProfile> {
                                             json.decode(response.body);
                                         print(unfollowoutput);
                                         print(response.body);
-                                        setState(() {
-                                          userProfileModel =
-                                              UserProfileServices()
-                                                  .getUserProfile(
-                                                      widget.userId);
-                                        });
                                       }
+                                      setState(() {
+                                        currentUserPostModel =
+                                            GetUserPostServices()
+                                                .getUserPost(widget.userId);
+                                        userProfileModel = UserProfileServices()
+                                            .getUserProfile(widget.userId);
+                                      });
                                     },
                                     () async {
                                       Map<String, String> follow = {
@@ -171,13 +166,11 @@ class _AltProfileState extends State<AltProfile> {
                                             json.decode(response.body);
                                         print(unfollowoutput);
                                         print(response.body);
-                                        setState(() {
-                                          userProfileModel =
-                                              UserProfileServices()
-                                                  .getUserProfile(
-                                                      widget.userId);
-                                        });
                                       }
+                                      setState(() {
+                                        userProfileModel = UserProfileServices()
+                                            .getUserProfile(widget.userId);
+                                      });
                                     },
                                   ),
                                   Provider.of<AltProfileHelpers>(context,
@@ -186,9 +179,11 @@ class _AltProfileState extends State<AltProfile> {
                                   Provider.of<AltProfileHelpers>(context,
                                           listen: false)
                                       .isWillingtofoster(context, snapshot),
-                                  Divider(
-                                    thickness: 0.5,
-                                  ),
+                                  snapshot.data!.hideSocial!
+                                      ? Container()
+                                      : Divider(
+                                          thickness: 0.5,
+                                        ),
                                   snapshot.data!.hideSocial!
                                       ? Container()
                                       : Padding(
@@ -205,9 +200,6 @@ class _AltProfileState extends State<AltProfile> {
                                   Provider.of<AltProfileHelpers>(context,
                                           listen: false)
                                       .twitter(context, snapshot),
-                                  Container(),
-                                  Container(),
-                                  Container()
                                 ],
                               ),
                             );
@@ -236,11 +228,11 @@ class _AltProfileState extends State<AltProfile> {
                       //else screensize lesser than 760
                       widget.textlength! <= 60
                           ? widget.size!
-                              ? MediaQuery.of(context).size * 0.38
+                              ? MediaQuery.of(context).size * 0.325
                               : MediaQuery.of(context).size * 0.565
                           : widget.textlength! <= 140
                               ? widget.size!
-                                  ? MediaQuery.of(context).size * 0.435
+                                  ? MediaQuery.of(context).size * 0.415
                                   : MediaQuery.of(context).size * 0.635
                               : widget.size!
                                   ? MediaQuery.of(context).size * 0.475
@@ -263,13 +255,34 @@ class _AltProfileState extends State<AltProfile> {
           body: FutureBuilder<CurrentUserPostModel?>(
             future: currentUserPostModel,
             builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Container();
+              }
+              if (snapshot.data!.data!.length == 0) {
+                return Center(
+                    child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "user did not",
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                    ),
+                    Text(
+                      "post anything",
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                    )
+                  ],
+                ));
+              }
               if (snapshot.hasData) {
                 return ListView.builder(
                     itemCount: snapshot.data!.data!.length,
                     itemBuilder: (context, index) {
                       var posts = snapshot.data!.data![index];
 
-                      print(snapshot.data!.data!.length.toString());
                       return Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: Container(
@@ -347,13 +360,45 @@ class _AltProfileState extends State<AltProfile> {
                                             child: Image.network(posts.image!),
                                           ));
                               } else {
-                                return Center(
-                                    child: Lottie.asset(
-                                        "assets/lottie/loading.json",
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.075,
-                                        frameRate: FrameRate(60)));
+                                return Column(
+                                  children: [
+                                    ListTile(
+                                      leading: ShimmerWidget.circular(
+                                          width: 50, height: 50),
+                                      title: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: ShimmerWidget.rectangular(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.4,
+                                            height: 10),
+                                      ),
+                                      subtitle: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: ShimmerWidget.rectangular(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.3,
+                                            height: 10),
+                                      ),
+                                    ),
+                                    Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.275,
+                                      child: Center(
+                                          child: Lottie.asset(
+                                              "assets/lottie/loading.json",
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.075,
+                                              frameRate: FrameRate(60))),
+                                    ),
+                                  ],
+                                );
                               }
                             },
                           ),
@@ -361,7 +406,7 @@ class _AltProfileState extends State<AltProfile> {
                       );
                     });
               } else {
-                return Center(child: CircularProgressIndicator());
+                return Container();
               }
             },
           ),

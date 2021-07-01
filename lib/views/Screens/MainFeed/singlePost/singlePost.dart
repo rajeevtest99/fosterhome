@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:fosterhome/Widgets/shimmerTile.dart';
 import 'package:fosterhome/consts/colors.dart';
 import 'package:fosterhome/consts/token_id_username.dart';
 import 'package:fosterhome/models/FeedAndDetailPostModel/SinglePostModel.dart';
@@ -61,10 +62,37 @@ class _SinglePostScreenState extends State<SinglePostScreen> {
                     future: singlePost,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
+                        return ListView.builder(
+                          itemCount: 7,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              leading:
+                                  ShimmerWidget.circular(width: 50, height: 50),
+                              title: Align(
+                                alignment: Alignment.centerLeft,
+                                child: ShimmerWidget.rectangular(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.275,
+                                    height: 10),
+                              ),
+                              subtitle: Align(
+                                alignment: Alignment.centerLeft,
+                                child: ShimmerWidget.rectangular(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.4,
+                                    height: 10),
+                              ),
+                            );
+                          },
+                        );
                       }
                       if (snapshot.data!.comments!.length == 0) {
-                        return Text("no comments yet");
+                        return Center(
+                            child: Text(
+                          "no comments yet",
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.w600),
+                        ));
                       }
                       if (snapshot.hasData) {
                         return ListView.builder(
@@ -92,9 +120,7 @@ class _SinglePostScreenState extends State<SinglePostScreen> {
                                                       .toLocal()),
                                                   comments.comment!);
                                         } else {
-                                          return Center(
-                                              child:
-                                                  CircularProgressIndicator());
+                                          return Container();
                                         }
                                       },
                                     ),
@@ -103,7 +129,7 @@ class _SinglePostScreenState extends State<SinglePostScreen> {
                               );
                             });
                       } else {
-                        return Center(child: CircularProgressIndicator());
+                        return Container();
                       }
                     },
                   ),

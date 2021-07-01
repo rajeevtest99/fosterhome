@@ -175,7 +175,12 @@ class _UpdatePostState extends State<UpdatePost> {
                   snapshot.data!.image! != ""
                       ? Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Text("you cannot update your post Image"),
+                          child: Text(
+                            "you cannot update your post Image",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600),
+                          ),
                         )
                       : Container(),
                   snapshot.data!.image! != ""
@@ -186,7 +191,7 @@ class _UpdatePostState extends State<UpdatePost> {
                 ],
               );
             } else {
-              return CircularProgressIndicator();
+              return Container();
             }
           },
         ),

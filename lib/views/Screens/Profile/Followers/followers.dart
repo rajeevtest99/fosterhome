@@ -70,7 +70,25 @@ class _FollowersState extends State<Followers> {
           future: profileModel,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
+              return ListView.builder(
+                  itemCount: 5,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      leading: ShimmerWidget.circular(width: 50, height: 50),
+                      title: Align(
+                        alignment: Alignment.centerLeft,
+                        child: ShimmerWidget.rectangular(
+                            width: MediaQuery.of(context).size.width * 0.275,
+                            height: 10),
+                      ),
+                      subtitle: Align(
+                        alignment: Alignment.centerLeft,
+                        child: ShimmerWidget.rectangular(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            height: 10),
+                      ),
+                    );
+                  });
             }
             if (snapshot.data!.data!.boopers!.length == 0) {
               return Text("no followers");

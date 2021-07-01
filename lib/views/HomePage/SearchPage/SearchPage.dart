@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:fosterhome/Widgets/shimmerTile.dart';
@@ -8,7 +7,7 @@ import 'package:fosterhome/consts/colors.dart';
 import 'package:fosterhome/consts/token_id_username.dart';
 import 'package:fosterhome/models/searchModel/searchmodel.dart';
 import 'package:fosterhome/services/SearchUser/SearchUserServices.dart';
-import 'package:fosterhome/services/api.dart';
+
 import 'package:fosterhome/services/token_id_username_prefs/userIdPrefs.dart';
 import 'package:fosterhome/services/token_id_username_prefs/usernamePrefs.dart';
 import 'package:fosterhome/views/Screens/Profile/altProfile/alt_profile.dart';
@@ -30,7 +29,6 @@ class SearchPage extends SearchDelegate<Future<SearchUser?>?> {
   Future<SearchUser?>? searchuser;
   bool isFollowing = false;
 
-  final Api _api = Api();
   String? userID = '';
   String? userName = '';
   UserIdPref _idPref = UserIdPref();
@@ -133,22 +131,6 @@ class SearchPage extends SearchDelegate<Future<SearchUser?>?> {
     return FutureBuilder<SearchUser?>(
         future: searchuser = SearchUserServices().searchuser(query),
         builder: (context, snapshot) {
-          // if (snapshot.connectionState == ConnectionState.waiting) {
-          //   return ListTile(
-          //     leading: ShimmerWidget.circular(width: 50, height: 50),
-          //     title: Align(
-          //       alignment: Alignment.centerLeft,
-          //       child: ShimmerWidget.rectangular(
-          //           width: MediaQuery.of(context).size.width * 0.275,
-          //           height: 10),
-          //     ),
-          //     subtitle: Align(
-          //       alignment: Alignment.centerLeft,
-          //       child: ShimmerWidget.rectangular(
-          //           width: MediaQuery.of(context).size.width * 0.4, height: 10),
-          //     ),
-          //   );
-          // }
           if (snapshot.hasData) {
             return ListView.builder(
                 itemCount: snapshot.data!.searchresult!.length,
@@ -169,12 +151,6 @@ class SearchPage extends SearchDelegate<Future<SearchUser?>?> {
                                           .toDouble(),
                                     ),
                               type: PageTransitionType.leftToRight));
-                      // MaterialPageRoute(
-                      //     builder: (context) => AltProfile(
-                      //         userId: searchresults.id,
-                      //         size: searchresults.hideSocial,
-                      //         textlength:
-                      //             searchresults.about!.length.toDouble())));
                     },
                     child: ListTile(
                       leading: CircleAvatar(

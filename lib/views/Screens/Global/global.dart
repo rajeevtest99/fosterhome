@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:fosterhome/Widgets/shimmerTile.dart';
 import 'package:fosterhome/consts/colors.dart';
 import 'package:fosterhome/consts/token_id_username.dart';
+
 import 'package:fosterhome/models/UserProfileModel/AllUsersModel.dart';
 import 'package:fosterhome/models/currentUser/currentUser.dart';
 import 'package:fosterhome/services/UserProfileServices/getallUserServices.dart';
 import 'package:fosterhome/services/token_id_username_prefs/userIdPrefs.dart';
+
 import 'package:fosterhome/views/Screens/Profile/altProfile/alt_profile.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -18,16 +21,22 @@ class Global extends StatefulWidget {
 class _GlobalState extends State<Global> {
   Future<GetAllUsers>? getAllUsersModel;
   Future<ProfileModel>? profileModel;
+  UserIdPref _idPref = UserIdPref();
 
   final ConstantColors constantColors = ConstantColors();
 
   String? userID = '';
-  UserIdPref _idPref = UserIdPref();
 
   @override
   void initState() {
-    // TODO: implement initState
+    super.initState();
     getAllUsersModel = GetAllUserServices().getAllUsers();
+    _checkUserID();
+  }
+
+  _checkUserID() async {
+    userID = await (_idPref.readId(USER_ID_KEY));
+    print(userID);
   }
 
   @override
@@ -113,7 +122,26 @@ class _GlobalState extends State<Global> {
               ],
             );
           } else {
-            return Container();
+            return ListView.builder(
+              itemCount: 7,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  leading: ShimmerWidget.circular(width: 50, height: 50),
+                  title: Align(
+                    alignment: Alignment.centerLeft,
+                    child: ShimmerWidget.rectangular(
+                        width: MediaQuery.of(context).size.width * 0.275,
+                        height: 10),
+                  ),
+                  subtitle: Align(
+                    alignment: Alignment.centerLeft,
+                    child: ShimmerWidget.rectangular(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        height: 10),
+                  ),
+                );
+              },
+            );
           }
         },
       ),

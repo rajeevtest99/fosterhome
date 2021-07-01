@@ -349,83 +349,6 @@ class UpdateProfileHelpers extends ChangeNotifier {
                     String response = json.decode(updateAbout.body);
                     print(response);
                   }
-                  // }
-                  // if (instaID.text != "") {
-                  //   Map<String, dynamic> updateinstaID = {
-                  //     "instaId": instaID.text,
-                  //     "userId": id
-                  //   };
-                  //   var response =
-                  //       await _api.put("user/$id/update", updateinstaID);
-                  //   if (response.statusCode == 200 ||
-                  //       response.statusCode == 201) {
-                  //     String updatedResult = json.decode(response.body);
-                  //     print(updatedResult);
-                  //   }
-                  // }
-
-                  // Map<String, dynamic> addinstaLink = {
-                  //   "instaLink": _instaLink.text,
-                  //   "userId": id
-                  // };
-                  // var response =
-                  //     await _api.put("user/$id/update", addinstaLink);
-                  // if (response.statusCode == 200 ||
-                  //     response.statusCode == 201) {
-                  //   String updatedResult = json.decode(response.body);
-                  //   print(updatedResult);
-                  // }
-                  // if (_fbID.text != "") {
-                  //   Map<String, dynamic> addfbID = {
-                  //     "fbId": _fbID.text,
-                  //     "userId": id
-                  //   };
-                  //   var response = await _api.put("user/$id/update", addfbID);
-                  //   if (response.statusCode == 200 ||
-                  //       response.statusCode == 201) {
-                  //     String updatedResult = json.decode(response.body);
-                  //     print(updatedResult);
-                  //   }
-                  // }
-
-                  // if (_fbLink.text != "") {
-                  //   Map<String, dynamic> addfbLink = {
-                  //     "fbLink": _fbLink.text,
-                  //     "userId": id
-                  //   };
-                  //   var response = await _api.put("user/$id/update", addfbLink);
-                  //   if (response.statusCode == 200 ||
-                  //       response.statusCode == 201) {
-                  //     String updatedResult = json.decode(response.body);
-                  //     print(updatedResult);
-                  //   }
-                  // }
-                  // if (_twitterID.text != "") {
-                  //   Map<String, dynamic> addtwitterId = {
-                  //     "twitterId": _twitterID.text,
-                  //     "userId": id
-                  //   };
-                  //   var response =
-                  //       await _api.put("user/$id/update", addtwitterId);
-                  //   if (response.statusCode == 200 ||
-                  //       response.statusCode == 201) {
-                  //     String updatedResult = json.decode(response.body);
-                  //     print(updatedResult);
-                  //   }
-                  // }
-                  // if (_twitterLink.text != "") {
-                  //   Map<String, dynamic> addtwitterLink = {
-                  //     "twitterLink": _twitterLink.text,
-                  //     "userId": id
-                  //   };
-                  //   var response =
-                  //       await _api.put("user/$id/update", addtwitterLink);
-                  //   if (response.statusCode == 200 ||
-                  //       response.statusCode == 201) {
-                  //     String updatedResult = json.decode(response.body);
-                  //     print(updatedResult);
-                  //   }
-                  // }
 
                   if (showNoofpets == true) {
                     Map<String, dynamic> addShowNoofPets = {
@@ -520,6 +443,7 @@ class UpdateProfileHelpers extends ChangeNotifier {
 
                   isLoading = false;
                   notifyListeners();
+                  Navigator.pop(context);
                   print(token);
                   print(id);
                 },

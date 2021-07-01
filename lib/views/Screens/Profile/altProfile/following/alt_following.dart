@@ -30,6 +30,7 @@ class _AltfollowingState extends State<Altfollowing> {
   void initState() {
     super.initState();
     _checkUserID();
+    otherusers = UserProfileServices().getUserProfile(widget.userID);
   }
 
   _checkUserID() async {
@@ -41,9 +42,29 @@ class _AltfollowingState extends State<Altfollowing> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<UserProfileModel>(
-        future: otherusers =
-            UserProfileServices().getUserProfile(widget.userID),
+        future: otherusers,
         builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return ListView.builder(
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    leading: ShimmerWidget.circular(width: 50, height: 50),
+                    title: Align(
+                      alignment: Alignment.centerLeft,
+                      child: ShimmerWidget.rectangular(
+                          width: MediaQuery.of(context).size.width * 0.275,
+                          height: 10),
+                    ),
+                    subtitle: Align(
+                      alignment: Alignment.centerLeft,
+                      child: ShimmerWidget.rectangular(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          height: 10),
+                    ),
+                  );
+                });
+          }
           return ListView.builder(
               itemCount: snapshot.data!.booping!.length,
               itemBuilder: (context, index) {
@@ -52,27 +73,7 @@ class _AltfollowingState extends State<Altfollowing> {
                     future: following =
                         UserProfileServices().getUserProfile(users),
                     builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return ListTile(
-                          leading:
-                              ShimmerWidget.circular(width: 50, height: 50),
-                          title: Align(
-                            alignment: Alignment.centerLeft,
-                            child: ShimmerWidget.rectangular(
-                                width:
-                                    MediaQuery.of(context).size.width * 0.275,
-                                height: 10),
-                          ),
-                          subtitle: Align(
-                            alignment: Alignment.centerLeft,
-                            child: ShimmerWidget.rectangular(
-                                width: MediaQuery.of(context).size.width * 0.4,
-                                height: 10),
-                          ),
-                        );
-                      }
-
-                      if (snapshot.data!.booping!.length != 0) {
+                      if (snapshot.hasData) {
                         var contain = snapshot.data!.boopers!
                             .where((element) => element == userID);
                         if (contain.isEmpty) {
@@ -105,7 +106,7 @@ class _AltfollowingState extends State<Altfollowing> {
                                     ? followinguser(snapshot.data!.id!)
                                     : follow(snapshot.data!.id!));
                       } else {
-                        return CircularProgressIndicator();
+                        return Container();
                       }
                     });
               });

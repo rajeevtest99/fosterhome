@@ -60,8 +60,8 @@ class Alluser {
   });
 
   String? profilePicture;
-  List<Boop>? boopers;
-  List<Boop>? booping;
+  List<String?>? boopers;
+  List<String?>? booping;
   String? fostered;
   bool? isAdmin;
   bool? hasFostered;
@@ -91,10 +91,8 @@ class Alluser {
 
   factory Alluser.fromJson(Map<String, dynamic> json) => Alluser(
         profilePicture: json["profilePicture"],
-        boopers:
-            List<Boop>.from(json["boopers"].map((x) => boopValues.map![x])),
-        booping:
-            List<Boop>.from(json["booping"].map((x) => boopValues.map![x])),
+        boopers: List<String>.from(json["boopers"].map((x) => x)),
+        booping: List<String>.from(json["booping"].map((x) => x)),
         fostered: json["fostered"],
         isAdmin: json["isAdmin"],
         hasFostered: json["hasFostered"],
@@ -120,15 +118,13 @@ class Alluser {
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         v: json["__v"],
-        about: json["about"] == null ? null : json["about"],
+        about: json["about"],
       );
 
   Map<String, dynamic> toJson() => {
         "profilePicture": profilePicture,
-        "boopers":
-            List<dynamic>.from(boopers!.map((x) => boopValues.reverse[x])),
-        "booping":
-            List<dynamic>.from(booping!.map((x) => boopValues.reverse[x])),
+        "boopers": List<dynamic>.from(boopers!.map((x) => x)),
+        "booping": List<dynamic>.from(booping!.map((x) => x)),
         "fostered": fostered,
         "isAdmin": isAdmin,
         "hasFostered": hasFostered,
@@ -154,34 +150,6 @@ class Alluser {
         "createdAt": createdAt!.toIso8601String(),
         "updatedAt": updatedAt!.toIso8601String(),
         "__v": v,
-        "about": about == null ? null : about,
+        "about": about,
       };
-}
-
-enum Boop {
-  THE_60_A7_F80_D6_A41_CC05408077_B1,
-  EMPTY,
-  THE_60942_B05_DC092_C2_FF4_E9183_E,
-  THE_60_A79_D3_BE1_C2680_BAC71_AD3_B
-}
-
-final boopValues = EnumValues({
-  "": Boop.EMPTY,
-  "60942b05dc092c2ff4e9183e": Boop.THE_60942_B05_DC092_C2_FF4_E9183_E,
-  "60a79d3be1c2680bac71ad3b": Boop.THE_60_A79_D3_BE1_C2680_BAC71_AD3_B,
-  "60a7f80d6a41cc05408077b1": Boop.THE_60_A7_F80_D6_A41_CC05408077_B1
-});
-
-class EnumValues<T> {
-  Map<String, T>? map;
-  Map<T, String>? reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    if (reverseMap == null) {
-      reverseMap = map!.map((k, v) => new MapEntry(v, k));
-    }
-    return reverseMap!;
-  }
 }

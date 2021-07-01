@@ -30,6 +30,7 @@ class _AltfollowersState extends State<Altfollowers> {
   void initState() {
     super.initState();
     _checkUserID();
+    otherusers = UserProfileServices().getUserProfile(widget.userID);
   }
 
   _checkUserID() async {
@@ -41,9 +42,29 @@ class _AltfollowersState extends State<Altfollowers> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<UserProfileModel>(
-        future: otherusers =
-            UserProfileServices().getUserProfile(widget.userID),
+        future: otherusers,
         builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return ListView.builder(
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    leading: ShimmerWidget.circular(width: 50, height: 50),
+                    title: Align(
+                      alignment: Alignment.centerLeft,
+                      child: ShimmerWidget.rectangular(
+                          width: MediaQuery.of(context).size.width * 0.275,
+                          height: 10),
+                    ),
+                    subtitle: Align(
+                      alignment: Alignment.centerLeft,
+                      child: ShimmerWidget.rectangular(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          height: 10),
+                    ),
+                  );
+                });
+          }
           return ListView.builder(
               itemCount: snapshot.data!.boopers!.length,
               itemBuilder: (context, index) {
@@ -105,7 +126,7 @@ class _AltfollowersState extends State<Altfollowers> {
                                     ? followinguser(snapshot.data!.id!)
                                     : follow(snapshot.data!.id!));
                       } else {
-                        return CircularProgressIndicator();
+                        return Container();
                       }
                     });
               });
