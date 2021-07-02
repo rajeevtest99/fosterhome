@@ -103,19 +103,16 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: Colors.white,
-        statusBarIconBrightness: Brightness.dark));
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: false,
           backgroundColor: Colors.white,
           elevation: 0,
           bottom: PreferredSize(
             child: Container(),
             preferredSize: MediaQuery.of(context).size * 0.025,
           ),
-          centerTitle: false,
           title: Padding(
             padding:
                 const EdgeInsets.only(top: 25, left: 10, right: 10, bottom: 10),
@@ -155,10 +152,11 @@ class _HomePageState extends State<HomePage>
                                 color: constantColors.purple, width: 2)),
                         child: CircleAvatar(
                           radius: 22,
-                          backgroundImage: NetworkImage(
-                              snapshot.data!.data!.profilePicture == ""
-                                  ? "https://source.unsplash.com/random"
-                                  : snapshot.data!.data!.profilePicture!),
+                          backgroundImage: NetworkImage(snapshot
+                                      .data!.data!.profilePicture ==
+                                  ""
+                              ? "https://image.flaticon.com/icons/png/512/709/709722.png"
+                              : snapshot.data!.data!.profilePicture!),
                         ),
                       ),
                     ),

@@ -50,7 +50,7 @@ class UpdateProfileHelpers extends ChangeNotifier {
 
   bool isLoading = false;
   final spinkit = SpinKitThreeBounce(
-    color: Colors.purple,
+    color: Color(0xff7868e6),
   );
 
   //about text controller

@@ -16,11 +16,6 @@ class _AboutState extends State<About> {
   bool? hideSocialMedia = true;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -76,8 +71,7 @@ class _AboutState extends State<About> {
                   .twitter(context),
               Provider.of<AboutHelpers>(context, listen: false)
                   .hideSocial(context),
-              Provider.of<AboutHelpers>(context, listen: false)
-                  .nothing(context),
+              Provider.of<AboutHelpers>(context, listen: true).nothing(context),
             ],
           ),
         ),

@@ -47,7 +47,7 @@ class AboutHelpers extends ChangeNotifier {
 
   bool isLoading = false;
   final spinkit = SpinKitThreeBounce(
-    color: Colors.purple,
+    color: Color(0xff7868e6),
   );
 
   //about text controller
@@ -475,14 +475,12 @@ class AboutHelpers extends ChangeNotifier {
                   }
 
                   isLoading = false;
-                  Navigator.pushReplacement(
-                      context,
-                      PageTransition(
-                          child: HomePage(),
-                          type: PageTransitionType.bottomToTop));
+
                   notifyListeners();
-                  print(token);
-                  print(id);
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                      (route) => false);
                 },
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.075,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:fosterhome/views/HomePage/HomePagehelpers.dart';
 
@@ -18,6 +19,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.white, statusBarIconBrightness: Brightness.dark));
   runApp(MyApp());
 }
 
