@@ -115,6 +115,7 @@ class _HomePageState extends State<HomePage>
             child: Container(),
             preferredSize: MediaQuery.of(context).size * 0.025,
           ),
+          centerTitle: false,
           title: Padding(
             padding:
                 const EdgeInsets.only(top: 25, left: 10, right: 10, bottom: 10),

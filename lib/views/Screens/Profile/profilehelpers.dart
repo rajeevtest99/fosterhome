@@ -27,26 +27,13 @@ class ProfileHelpers extends ChangeNotifier {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        snapshot.data!.data!.profilePicture! == ""
-            ? Container(
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: constantColors.purple, width: 2)),
-                child: Image.asset(
-                  "assets/images/user.png",
-                  height: 15,
-                  width: 15,
-                ))
-            : Container(
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: constantColors.purple, width: 2)),
-                child: CircleAvatar(
-                  radius: 35,
-                  backgroundImage:
-                      NetworkImage(snapshot.data!.data!.profilePicture!),
-                ),
-              ),
+        CircleAvatar(
+          radius: 35,
+          backgroundImage: NetworkImage(
+              snapshot.data!.data!.profilePicture == ""
+                  ? "https://image.flaticon.com/icons/png/512/709/709722.png"
+                  : snapshot.data!.data!.profilePicture!),
+        ),
         postsCount(context, currentUserPostModel),
         boopers(context, snapshot),
         booping(context, snapshot),
@@ -219,29 +206,36 @@ class ProfileHelpers extends ChangeNotifier {
   Widget insta(BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: snapshot.data!.data!.instaId == ""
-          ? Container()
-          : InkWell(
-              splashColor: snapshot.data!.data!.instaLink == ""
-                  ? Colors.transparent
-                  : Colors.grey,
-              onTap: snapshot.data!.data!.instaLink == ""
-                  ? () {}
-                  : () {
-                      Utils.openlink(url: snapshot.data!.data!.instaLink);
-                    },
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Image.asset(
-                      'assets/icons/insta.png',
-                      height: 22.5,
-                      width: 22.5,
-                      color: constantColors.purple,
+      child: InkWell(
+        splashColor: snapshot.data!.data!.instaLink == ""
+            ? Colors.transparent
+            : Colors.grey,
+        onTap: snapshot.data!.data!.instaLink == ""
+            ? () {}
+            : () {
+                Utils.openlink(url: snapshot.data!.data!.instaLink);
+              },
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Image.asset(
+                'assets/icons/insta.png',
+                height: 22.5,
+                width: 22.5,
+                color: constantColors.purple,
+              ),
+            ),
+            snapshot.data!.data!.instaId == ""
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "update your insta id",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
                     ),
-                  ),
-                  Padding(
+                  )
+                : Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       snapshot.data!.data!.instaId!,
@@ -249,38 +243,45 @@ class ProfileHelpers extends ChangeNotifier {
                           TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
                     ),
                   ),
-                ],
-              ),
-            ),
+          ],
+        ),
+      ),
     );
   }
 
   Widget facebook(BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: snapshot.data!.data!.fbId == ""
-          ? Container()
-          : InkWell(
-              splashColor: snapshot.data!.data!.fbLink == ""
-                  ? Colors.transparent
-                  : Colors.grey,
-              onTap: snapshot.data!.data!.fbLink == ""
-                  ? () {}
-                  : () {
-                      Utils.openlink(url: snapshot.data!.data!.fbLink);
-                    },
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Image.asset(
-                      'assets/icons/fb.png',
-                      height: 22.5,
-                      width: 22.5,
-                      color: constantColors.purple,
+      child: InkWell(
+        splashColor: snapshot.data!.data!.fbLink == ""
+            ? Colors.transparent
+            : Colors.grey,
+        onTap: snapshot.data!.data!.fbLink == ""
+            ? () {}
+            : () {
+                Utils.openlink(url: snapshot.data!.data!.fbLink);
+              },
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Image.asset(
+                'assets/icons/fb.png',
+                height: 22.5,
+                width: 22.5,
+                color: constantColors.purple,
+              ),
+            ),
+            snapshot.data!.data!.fbId == ""
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "update your facebook id",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
                     ),
-                  ),
-                  Padding(
+                  )
+                : Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       snapshot.data!.data!.fbId!,
@@ -288,38 +289,45 @@ class ProfileHelpers extends ChangeNotifier {
                           TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
                     ),
                   ),
-                ],
-              ),
-            ),
+          ],
+        ),
+      ),
     );
   }
 
   Widget twitter(BuildContext context, AsyncSnapshot<ProfileModel> snapshot) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: snapshot.data!.data!.twitterId == ""
-          ? Container()
-          : InkWell(
-              splashColor: snapshot.data!.data!.twitterLink == ""
-                  ? Colors.transparent
-                  : Colors.grey,
-              onTap: snapshot.data!.data!.twitterLink == ""
-                  ? () {}
-                  : () {
-                      Utils.openlink(url: snapshot.data!.data!.twitterLink);
-                    },
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Image.asset(
-                      'assets/icons/twitter.png',
-                      height: 22.5,
-                      width: 22.5,
-                      color: constantColors.purple,
+      child: InkWell(
+        splashColor: snapshot.data!.data!.twitterLink == ""
+            ? Colors.transparent
+            : Colors.grey,
+        onTap: snapshot.data!.data!.twitterLink == ""
+            ? () {}
+            : () {
+                Utils.openlink(url: snapshot.data!.data!.twitterLink);
+              },
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Image.asset(
+                'assets/icons/twitter.png',
+                height: 22.5,
+                width: 22.5,
+                color: constantColors.purple,
+              ),
+            ),
+            snapshot.data!.data!.twitterId == ""
+                ? Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      "update your twiiter id",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
                     ),
-                  ),
-                  Padding(
+                  )
+                : Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       snapshot.data!.data!.twitterId!,
@@ -327,9 +335,9 @@ class ProfileHelpers extends ChangeNotifier {
                           TextStyle(fontSize: 18, fontWeight: FontWeight.w400),
                     ),
                   ),
-                ],
-              ),
-            ),
+          ],
+        ),
+      ),
     );
   }
 }

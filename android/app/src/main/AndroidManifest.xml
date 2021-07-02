@@ -5,7 +5,9 @@
    <application
         
         android:label="fosterhome"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round">
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -41,6 +43,9 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+    
+
   <uses-permission android:name = "android.permission.INTERNET"/>
+
     
 </manifest>

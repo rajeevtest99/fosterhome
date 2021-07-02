@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fosterhome/Widgets/shimmerTile.dart';
 
 import 'package:fosterhome/consts/colors.dart';
 import 'package:fosterhome/consts/token_id_username.dart';
@@ -28,11 +30,14 @@ class Nearby extends StatefulWidget {
 }
 
 class _NearbyState extends State<Nearby> with SingleTickerProviderStateMixin {
-  bool loading = false;
+  bool loading = true;
+  bool? update;
   final Api _api = Api();
   UserIdPref _idPref = UserIdPref();
   String? currentAddress = "my address";
   String? currentCity = "";
+  double? latitude = 0;
+  double? longitude = 0;
   String? currentCountry = "";
   Position? currentPositon;
   Future<GetAllUsers>? getAllUsersModel;
@@ -73,11 +78,15 @@ class _NearbyState extends State<Nearby> with SingleTickerProviderStateMixin {
 
       setState(() {
         currentPositon = position;
+        latitude = position.latitude;
+        longitude = position.longitude;
+
         currentAddress =
             "${place.locality} ${place.postalCode} ${place.country}";
         currentCity = place.locality;
         currentCountry = place.country;
         loading = true;
+        update = true;
 
         print(currentPositon);
       });
@@ -90,8 +99,8 @@ class _NearbyState extends State<Nearby> with SingleTickerProviderStateMixin {
     String id = await _idPref.readId(USER_ID_KEY);
     Map<String, dynamic> updatelocation = {
       "userId": id,
-      "latitude": currentPositon!.latitude.toString(),
-      "longitude": currentPositon!.longitude.toString(),
+      "latitude": latitude,
+      "longitude": longitude,
       "country": currentCountry,
       "city": currentCity
     };
@@ -114,8 +123,11 @@ class _NearbyState extends State<Nearby> with SingleTickerProviderStateMixin {
     _checkUserName();
 
     Timer(Duration(milliseconds: 500), _determinePositon);
-    Timer(Duration(milliseconds: 1000), _updateLocation);
-    getAllUsersModel = GetAllUserServices().getAllUsers();
+    Timer(Duration(milliseconds: 750), _updateLocation);
+    setState(() {
+      update = false;
+      getAllUsersModel = GetAllUserServices().getAllUsers();
+    });
   }
 
   _checkUserID() async {
@@ -130,6 +142,9 @@ class _NearbyState extends State<Nearby> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Colors.white,
+        statusBarIconBrightness: Brightness.dark));
     return Scaffold(
       body: loading
           ? Column(
@@ -151,6 +166,28 @@ class _NearbyState extends State<Nearby> with SingleTickerProviderStateMixin {
           : FutureBuilder<GetAllUsers>(
               future: getAllUsersModel,
               builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return ListView.builder(
+                    itemCount: 7,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: ShimmerWidget.circular(width: 50, height: 50),
+                        title: Align(
+                          alignment: Alignment.centerLeft,
+                          child: ShimmerWidget.rectangular(
+                              width: MediaQuery.of(context).size.width * 0.275,
+                              height: 10),
+                        ),
+                        subtitle: Align(
+                          alignment: Alignment.centerLeft,
+                          child: ShimmerWidget.rectangular(
+                              width: MediaQuery.of(context).size.width * 0.4,
+                              height: 10),
+                        ),
+                      );
+                    },
+                  );
+                }
                 if (snapshot.hasData) {
                   var contains = snapshot.data!.allusers!
                       .where((element) => element.city == currentCity);

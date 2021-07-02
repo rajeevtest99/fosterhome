@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fosterhome/consts/colors.dart';
+import 'package:fosterhome/views/HomePage/homepage.dart';
 import 'package:fosterhome/views/signup/about/about_helpers.dart';
+import 'package:page_transition/page_transition.dart';
 
 import 'package:provider/provider.dart';
 
@@ -38,7 +40,13 @@ class _AboutState extends State<About> {
                           fontSize: 20,
                           fontWeight: FontWeight.w800),
                     ),
-                    onPressed: () {})
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                          context,
+                          PageTransition(
+                              child: HomePage(),
+                              type: PageTransitionType.leftToRight));
+                    })
               ],
             ),
           )

@@ -113,7 +113,12 @@ class _SinglePostScreenState extends State<SinglePostScreen> {
                                                   listen: false)
                                               .comment(
                                                   context,
-                                                  "https://source.unsplash.com/random",
+                                                  snapshot.data!
+                                                              .profilePicture ==
+                                                          ""
+                                                      ? "https://image.flaticon.com/icons/png/512/709/709722.png"
+                                                      : snapshot.data!
+                                                          .profilePicture!,
                                                   "${snapshot.data!.firstname} ${snapshot.data!.lastname}",
                                                   timeago.format(comments
                                                       .createdAt!

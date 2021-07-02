@@ -16,6 +16,7 @@ import 'package:fosterhome/services/currentuser/currentuserServices.dart';
 
 import 'package:fosterhome/services/token_id_username_prefs/shared_prefs.dart';
 import 'package:fosterhome/services/token_id_username_prefs/userIdPrefs.dart';
+import 'package:fosterhome/services/token_id_username_prefs/usernamePrefs.dart';
 
 import 'package:fosterhome/views/Screens/Profile/profilehelpers.dart';
 import 'package:fosterhome/views/Screens/Profile/updateProfile/updateProfile.dart';
@@ -35,6 +36,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   PrefService _prefService = PrefService();
   UserIdPref _idPref = UserIdPref();
+  UserNamePref _namePref = UserNamePref();
   final ConstantColors constantColors = ConstantColors();
 
   final Api _api = Api();
@@ -74,7 +76,9 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   logout() async {
     String? id = await (_idPref.readId(USER_ID_KEY));
     print(id);
-    _prefService.removeCache("myfosterpass").whenComplete(() =>
+    _namePref.removeUserName(USER_NAME_KEY);
+    _idPref.removeId(USER_ID_KEY);
+    _prefService.removeCache(TOKEN_KEY).whenComplete(() =>
         Navigator.pushAndRemoveUntil(
             context,
             PageTransition(

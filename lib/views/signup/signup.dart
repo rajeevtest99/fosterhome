@@ -5,6 +5,7 @@ import 'package:fosterhome/consts/colors.dart';
 import 'package:fosterhome/services/api.dart';
 import 'package:fosterhome/services/token_id_username_prefs/shared_prefs.dart';
 import 'package:fosterhome/services/token_id_username_prefs/userIdPrefs.dart';
+import 'package:fosterhome/services/token_id_username_prefs/usernamePrefs.dart';
 
 import 'package:fosterhome/views/login/login_helpers.dart';
 import 'package:fosterhome/views/signup/about/about.dart';
@@ -26,6 +27,7 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
 
   PrefService _prefService = PrefService();
   UserIdPref _idPref = UserIdPref();
+  UserNamePref _namePref = UserNamePref();
 
   //http call
 
@@ -56,7 +58,7 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
   bool emailvalidate = false;
   bool circular = false;
   final spinkit = SpinKitThreeBounce(
-    color: Colors.purple,
+    color: Color(0xff7868e6),
   );
 
   //Animation controller
@@ -284,6 +286,8 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
                         .createCache(signupoutput["token"])
                         .whenComplete(() {
                       _idPref.saveId(signupoutput['userId']);
+                      _namePref.saveUserName(signupoutput['username']);
+
                       return showDialog(
                           barrierDismissible: false,
                           context: context,
