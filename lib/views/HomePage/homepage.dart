@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:fosterhome/consts/colors.dart';
@@ -152,6 +152,7 @@ class _HomePageState extends State<HomePage>
                                 color: constantColors.purple, width: 2)),
                         child: CircleAvatar(
                           radius: 22,
+                          backgroundColor: constantColors.skyblue,
                           backgroundImage: NetworkImage(snapshot
                                       .data!.data!.profilePicture ==
                                   ""

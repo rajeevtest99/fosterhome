@@ -11,6 +11,8 @@ import 'package:fosterhome/services/UserProfileServices/UserProfileServices.dart
 import 'package:fosterhome/services/api.dart';
 import 'package:fosterhome/services/currentuser/currentuserServices.dart';
 import 'package:fosterhome/services/token_id_username_prefs/userIdPrefs.dart';
+import 'package:fosterhome/views/Screens/Profile/altProfile/alt_profile.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Following extends StatefulWidget {
   const Following({Key? key}) : super(key: key);
@@ -91,12 +93,12 @@ class _FollowingState extends State<Following> {
               }
               if (snapshot.data!.data!.booping!.length == 0) {
                 return Center(
-                  child: Text(
-                    "no followers",
-                    style: TextStyle(color: constantColors.purple),
-                  ),
-                );
+                    child: Text(
+                  "you are not booping anyone",
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                ));
               }
+
               if (snapshot.hasData) {
                 return ListView.builder(
                     itemCount: snapshot.data!.data!.booping!.length,
@@ -129,15 +131,27 @@ class _FollowingState extends State<Following> {
                             );
                           }
 
-                          if (snapshot.data!.booping!.length != 0) {
-                            var contain = snapshot.data!.boopers!
-                                .where((element) => element == userID);
-                            if (contain.isEmpty) {
-                              isFollowing = false;
-                            } else {
-                              isFollowing = true;
-                            }
-                            return ListTile(
+                          var contain = snapshot.data!.boopers!
+                              .where((element) => element == userID);
+                          if (contain.isEmpty) {
+                            isFollowing = false;
+                          } else {
+                            isFollowing = true;
+                          }
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      child: AltProfile(
+                                        userId: snapshot.data!.id,
+                                        size: snapshot.data!.hideSocial,
+                                        textlength: snapshot.data!.about!.length
+                                            .toDouble(),
+                                      ),
+                                      type: PageTransitionType.fade));
+                            },
+                            child: ListTile(
                                 leading: CircleAvatar(
                                   backgroundImage: NetworkImage(
                                     snapshot.data!.profilePicture == ""
@@ -159,10 +173,8 @@ class _FollowingState extends State<Following> {
                                 ),
                                 trailing: isFollowing
                                     ? following(snapshot.data!.id!)
-                                    : follow(snapshot.data!.id!));
-                          } else {
-                            return Container();
-                          }
+                                    : follow(snapshot.data!.id!)),
+                          );
                         },
                       );
                     });

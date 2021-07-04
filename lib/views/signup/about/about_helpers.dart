@@ -8,11 +8,11 @@ import 'package:fosterhome/consts/colors.dart';
 import 'package:fosterhome/consts/supabase_key.dart';
 import 'package:fosterhome/consts/token_id_username.dart';
 import 'package:fosterhome/services/api.dart';
-import 'package:fosterhome/services/token_id_username_prefs/shared_prefs.dart';
+
 import 'package:fosterhome/services/token_id_username_prefs/userIdPrefs.dart';
 import 'package:fosterhome/views/HomePage/homepage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:page_transition/page_transition.dart';
+
 import 'package:supabase/supabase.dart';
 
 class AboutHelpers extends ChangeNotifier {
@@ -40,7 +40,6 @@ class AboutHelpers extends ChangeNotifier {
 
   //read user and token
 
-  PrefService _prefService = PrefService();
   UserIdPref _idPref = UserIdPref();
 
   //loading
@@ -288,7 +287,7 @@ class AboutHelpers extends ChangeNotifier {
                 onTap: () async {
                   isLoading = true;
                   notifyListeners();
-                  String? token = await (_prefService.readCache(TOKEN_KEY));
+
                   String? id = await (_idPref.readId(USER_ID_KEY));
                   if (_image != null) {
                     final file = File(_image!.path);
@@ -863,10 +862,12 @@ class AboutHelpers extends ChangeNotifier {
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.35,
                       child: TextFormField(
+                        style: TextStyle(fontWeight: FontWeight.w600),
                         controller: _fbID,
                         cursorColor: constantColors.lightpurple,
                         decoration: InputDecoration(
                             hintText: "facebook",
+                            hintStyle: TextStyle(fontWeight: FontWeight.w500),
                             border: OutlineInputBorder(
                                 borderSide: BorderSide.none)),
                       ),
@@ -922,10 +923,12 @@ class AboutHelpers extends ChangeNotifier {
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.35,
                       child: TextFormField(
+                        style: TextStyle(fontWeight: FontWeight.w600),
                         controller: _twitterID,
                         cursorColor: constantColors.lightpurple,
                         decoration: InputDecoration(
                             hintText: "twitter ID",
+                            hintStyle: TextStyle(fontWeight: FontWeight.w500),
                             border: OutlineInputBorder(
                                 borderSide: BorderSide.none)),
                       ),

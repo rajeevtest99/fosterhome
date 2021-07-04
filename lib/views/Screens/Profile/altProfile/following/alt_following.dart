@@ -41,6 +41,19 @@ class _AltfollowingState extends State<Altfollowing> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0.75,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: constantColors.purple,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: FutureBuilder<UserProfileModel>(
         future: otherusers,
         builder: (context, snapshot) {
@@ -64,6 +77,13 @@ class _AltfollowingState extends State<Altfollowing> {
                     ),
                   );
                 });
+          }
+          if (snapshot.data!.booping!.length == 0) {
+            return Center(
+                child: Text(
+              "user is not booping anyone",
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+            ));
           }
           return ListView.builder(
               itemCount: snapshot.data!.booping!.length,

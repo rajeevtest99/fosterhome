@@ -29,6 +29,7 @@ class ProfileHelpers extends ChangeNotifier {
       children: [
         CircleAvatar(
           radius: 35,
+          backgroundColor: constantColors.skyblue,
           backgroundImage: NetworkImage(
               snapshot.data!.data!.profilePicture == ""
                   ? "https://image.flaticon.com/icons/png/512/709/709722.png"

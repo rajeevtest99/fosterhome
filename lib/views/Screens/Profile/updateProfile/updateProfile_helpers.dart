@@ -11,7 +11,9 @@ import 'package:fosterhome/models/currentUser/currentUser.dart';
 import 'package:fosterhome/services/api.dart';
 import 'package:fosterhome/services/token_id_username_prefs/shared_prefs.dart';
 import 'package:fosterhome/services/token_id_username_prefs/userIdPrefs.dart';
+import 'package:fosterhome/views/HomePage/homepage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:supabase/supabase.dart';
 
 class UpdateProfileHelpers extends ChangeNotifier {
@@ -443,7 +445,12 @@ class UpdateProfileHelpers extends ChangeNotifier {
 
                   isLoading = false;
                   notifyListeners();
-                  Navigator.pop(context);
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      PageTransition(
+                          child: HomePage(),
+                          type: PageTransitionType.leftToRight),
+                      (route) => false);
                   print(token);
                   print(id);
                 },
@@ -834,10 +841,12 @@ class UpdateProfileHelpers extends ChangeNotifier {
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.35,
                       child: TextFormField(
+                        style: TextStyle(fontWeight: FontWeight.w600),
                         controller: _fbID,
                         cursorColor: constantColors.lightpurple,
                         decoration: InputDecoration(
                             hintText: "facebook",
+                            hintStyle: TextStyle(fontWeight: FontWeight.w500),
                             border: OutlineInputBorder(
                                 borderSide: BorderSide.none)),
                       ),
@@ -899,10 +908,12 @@ class UpdateProfileHelpers extends ChangeNotifier {
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.35,
                       child: TextFormField(
+                        style: TextStyle(fontWeight: FontWeight.w600),
                         controller: _twitterID,
                         cursorColor: constantColors.lightpurple,
                         decoration: InputDecoration(
                             hintText: "twitter ID",
+                            hintStyle: TextStyle(fontWeight: FontWeight.w500),
                             border: OutlineInputBorder(
                                 borderSide: BorderSide.none)),
                       ),

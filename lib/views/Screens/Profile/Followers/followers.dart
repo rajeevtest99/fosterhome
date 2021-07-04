@@ -91,7 +91,11 @@ class _FollowersState extends State<Followers> {
                   });
             }
             if (snapshot.data!.data!.boopers!.length == 0) {
-              return Text("no followers");
+              return Center(
+                  child: Text(
+                "no boopers",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+              ));
             }
             if (snapshot.hasData) {
               return ListView.builder(
@@ -125,54 +129,49 @@ class _FollowersState extends State<Followers> {
                           );
                         }
 
-                        if (snapshot.data!.boopers!.length != 0) {
-                          var contain = snapshot.data!.boopers!
-                              .where((element) => element == userID);
-                          if (contain.isEmpty) {
-                            isFollowing = false;
-                          } else {
-                            isFollowing = true;
-                          }
-                          return InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  PageTransition(
-                                      child: AltProfile(
-                                        userId: snapshot.data!.id,
-                                        size: snapshot.data!.hideSocial,
-                                        textlength: snapshot.data!.about!.length
-                                            .toDouble(),
-                                      ),
-                                      type: PageTransitionType.fade));
-                            },
-                            child: ListTile(
-                                leading: CircleAvatar(
-                                  backgroundImage: NetworkImage(
-                                    snapshot.data!.profilePicture == ""
-                                        ? "https://source.unsplash.com/random"
-                                        : snapshot.data!.profilePicture!,
-                                  ),
-                                ),
-                                title: Text(
-                                  snapshot.data!.username!,
-                                  style: TextStyle(
-                                      color: constantColors.purple,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                subtitle: Text(
-                                  "${snapshot.data!.firstname!} ${snapshot.data!.lastname!}",
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 16),
-                                ),
-                                trailing: isFollowing
-                                    ? following(snapshot.data!.id!)
-                                    : follow(snapshot.data!.id!)),
-                          );
+                        var contain = snapshot.data!.boopers!
+                            .where((element) => element == userID);
+                        if (contain.isEmpty) {
+                          isFollowing = false;
                         } else {
-                          return CircularProgressIndicator();
+                          isFollowing = true;
                         }
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    child: AltProfile(
+                                      userId: snapshot.data!.id,
+                                      size: snapshot.data!.hideSocial,
+                                      textlength: snapshot.data!.about!.length
+                                          .toDouble(),
+                                    ),
+                                    type: PageTransitionType.fade));
+                          },
+                          child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                  snapshot.data!.profilePicture == ""
+                                      ? "https://source.unsplash.com/random"
+                                      : snapshot.data!.profilePicture!,
+                                ),
+                              ),
+                              title: Text(
+                                snapshot.data!.username!,
+                                style: TextStyle(
+                                    color: constantColors.purple,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              subtitle: Text(
+                                "${snapshot.data!.firstname!} ${snapshot.data!.lastname!}",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w400, fontSize: 16),
+                              ),
+                              trailing: isFollowing
+                                  ? following(snapshot.data!.id!)
+                                  : follow(snapshot.data!.id!)),
+                        );
                       },
                     );
                   });

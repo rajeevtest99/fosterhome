@@ -228,7 +228,7 @@ class _AltProfileState extends State<AltProfile> {
                       //else screensize lesser than 760
                       widget.textlength! <= 60
                           ? widget.size!
-                              ? MediaQuery.of(context).size * 0.325
+                              ? MediaQuery.of(context).size * 0.35
                               : MediaQuery.of(context).size * 0.565
                           : widget.textlength! <= 140
                               ? widget.size!
