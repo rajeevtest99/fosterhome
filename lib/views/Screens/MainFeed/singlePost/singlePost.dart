@@ -61,7 +61,59 @@ class _SinglePostScreenState extends State<SinglePostScreen> {
                   child: FutureBuilder<SinglePost>(
                     future: singlePost,
                     builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
+                      if (snapshot.hasData) {
+                        if (snapshot.data!.comments!.length > 0) {
+                          return ListView.builder(
+                              itemCount: snapshot.data!.comments!.length,
+                              itemBuilder: (context, index) {
+                                var comments = snapshot.data!.comments![index];
+                                return Container(
+                                  child: Column(
+                                    children: [
+                                      FutureBuilder<UserProfileModel>(
+                                        future: userProfileModel =
+                                            UserProfileServices()
+                                                .getUserProfile(
+                                                    comments.userId),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            return Provider
+                                                    .of<
+                                                            SinglePageHelpers>(
+                                                        context,
+                                                        listen: false)
+                                                .comment(
+                                                    context,
+                                                    snapshot.data!
+                                                                .profilePicture ==
+                                                            ""
+                                                        ? "https://image.flaticon.com/icons/png/512/709/709722.png"
+                                                        : snapshot.data!
+                                                            .profilePicture!,
+                                                    "${snapshot.data!.firstname} ${snapshot.data!.lastname}",
+                                                    timeago.format(comments
+                                                        .createdAt!
+                                                        .toLocal()),
+                                                    comments.comment!);
+                                          } else {
+                                            return Container();
+                                          }
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              });
+                        } else {
+                          return Center(
+                              child: Text(
+                            "no comments yet",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600),
+                          ));
+                        }
+                      } else {
                         return ListView.builder(
                           itemCount: 7,
                           itemBuilder: (context, index) {
@@ -85,56 +137,6 @@ class _SinglePostScreenState extends State<SinglePostScreen> {
                             );
                           },
                         );
-                      }
-                      if (snapshot.data!.comments!.length == 0) {
-                        return Center(
-                            child: Text(
-                          "no comments yet",
-                          style: TextStyle(
-                              color: Colors.black, fontWeight: FontWeight.w600),
-                        ));
-                      }
-                      if (snapshot.hasData) {
-                        return ListView.builder(
-                            itemCount: snapshot.data!.comments!.length,
-                            itemBuilder: (context, index) {
-                              var comments = snapshot.data!.comments![index];
-                              return Container(
-                                child: Column(
-                                  children: [
-                                    FutureBuilder<UserProfileModel>(
-                                      future: userProfileModel =
-                                          UserProfileServices()
-                                              .getUserProfile(comments.userId),
-                                      builder: (context, snapshot) {
-                                        if (snapshot.hasData) {
-                                          return Provider.of<SinglePageHelpers>(
-                                                  context,
-                                                  listen: false)
-                                              .comment(
-                                                  context,
-                                                  snapshot.data!
-                                                              .profilePicture ==
-                                                          ""
-                                                      ? "https://image.flaticon.com/icons/png/512/709/709722.png"
-                                                      : snapshot.data!
-                                                          .profilePicture!,
-                                                  "${snapshot.data!.firstname} ${snapshot.data!.lastname}",
-                                                  timeago.format(comments
-                                                      .createdAt!
-                                                      .toLocal()),
-                                                  comments.comment!);
-                                        } else {
-                                          return Container();
-                                        }
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              );
-                            });
-                      } else {
-                        return Container();
                       }
                     },
                   ),
