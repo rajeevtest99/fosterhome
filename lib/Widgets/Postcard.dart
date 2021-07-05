@@ -5,24 +5,22 @@ import 'package:fosterhome/consts/colors.dart';
 
 class PostCard extends StatefulWidget {
   const PostCard(
-      {this.firstname,
-      this.lastname,
-      this.profileP,
-      this.time,
-      this.username,
-      this.like,
-      this.description,
-      this.tap,
-      this.comment,
-      this.share,
-      this.commentno,
-      this.likeno,
-      this.image,
-      this.animation,
-      this.options});
+      {@required this.firstname,
+      @required this.lastname,
+      @required this.profileP,
+      @required this.time,
+      @required this.like,
+      @required this.description,
+      @required this.tap,
+      @required this.comment,
+      @required this.share,
+      @required this.commentno,
+      @required this.likeno,
+      @required this.image,
+      @required this.options});
   final String? firstname;
   final String? lastname;
-  final String? username;
+
   final String? profileP;
   final String? description;
   final String? time;
@@ -32,7 +30,6 @@ class PostCard extends StatefulWidget {
   final String? commentno;
   final void Function()? comment;
   final void Function()? share;
-  final Function? animation;
 
   final Container? image;
   final Widget? options;
@@ -74,10 +71,6 @@ class _PostCardState extends State<PostCard> with TickerProviderStateMixin {
         });
       }
     });
-  }
-
-  void animation() {
-    widget.like! ? iconCont!.reverse() : iconCont!.forward();
   }
 
   @override
@@ -190,7 +183,9 @@ class _PostCardState extends State<PostCard> with TickerProviderStateMixin {
                                 onPressed: () {
                                   widget.tap!();
                                   setState(() {
-                                    animation();
+                                    widget.like!
+                                        ? iconCont!.reverse()
+                                        : iconCont!.forward();
                                   });
                                 });
                           }),
