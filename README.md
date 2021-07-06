@@ -6,6 +6,12 @@ FosterHome is a connectivity app, the theme is based on welfare for the pets
 
 This app contains all the basic operations required in todays real world apps
 
+![screenShot1](https://imgur.com/a/KPqBGIV)
+
+![screenShot2](https://imgur.com/a/JNJLrpB)
+
+![gif](https://imgur.com/a/tlaQ5b9)
+
 AppLink: https://drive.google.com/drive/u/0/folders/1FnjDLXmJFDFlpRB5XF2vKSVhMKltZBgR
 
 App Showcase: https://www.youtube.com/watch?v=Tsyi1WaEH5o&t=43s
