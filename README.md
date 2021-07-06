@@ -6,7 +6,7 @@ FosterHome is a connectivity app, the theme is based on welfare for the pets
 
 This app contains all the basic operations required in todays real world apps
 
-![screenShot1](https://imgur.com/a/KPqBGIV)
+![screenShot1](hhttps://imgur.com/gallery/KPqBGIV)
 
 ![screenShot2](https://imgur.com/a/JNJLrpB)
 
