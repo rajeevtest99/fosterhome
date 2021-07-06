@@ -37,16 +37,6 @@ class _UpdatePostState extends State<UpdatePost> {
 
   UserIdPref _idPref = UserIdPref();
 
-  //Image PickedFile and image picker
-
-  // PickedFile? _image;
-
-  // final ImagePicker _picker = ImagePicker();
-
-  //unused import of picked variable
-
-  // var pickedFile;
-
   //post id getter
 
   String? postid = "";
@@ -97,26 +87,12 @@ class _UpdatePostState extends State<UpdatePost> {
                   print(response);
                   String postOutput = json.decode(response.body);
                   print(postOutput);
-                  Navigator.push(
+                  Navigator.pushAndRemoveUntil(
                       context,
                       PageTransition(
                           child: HomePage(),
-                          type: PageTransitionType.leftToRight));
-
-                  // how to upload files to supabase
-
-                  /*if (pickedFile != null) {
-                    final file = File(pickedFile.files.first.path!);
-                    var res = await client.storage
-                        .from('postuploads')
-                        .upload(pickedFile.files.first.name, file);
-                    print(res);
-                    final urlres = await client.storage
-                        .from('postuploads')
-                        .createSignedUrl(pickedFile.files.first.name, 60);
-                    print("${urlres.data}");
-                  }*/
-
+                          type: PageTransitionType.leftToRight),
+                      (route) => false);
                 }
               },
               child: Text("update",

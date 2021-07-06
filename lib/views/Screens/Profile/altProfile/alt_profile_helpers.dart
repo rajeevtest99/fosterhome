@@ -15,8 +15,13 @@ import 'package:fosterhome/views/Screens/Profile/altProfile/following/alt_follow
 import 'package:page_transition/page_transition.dart';
 
 class AltProfileHelpers extends ChangeNotifier {
+  //Api Models
+
   Future<UserProfileModel>? userProfileModel;
   Future<CurrentUserPostModel>? currentUserPostModel;
+
+  //consts Colors
+
   final ConstantColors constantColors = ConstantColors();
 
   Widget header(BuildContext context, AsyncSnapshot<UserProfileModel> snapshot,

@@ -12,7 +12,6 @@ import 'package:fosterhome/models/currentUser/currentUser.dart';
 
 import 'package:fosterhome/services/api.dart';
 import 'package:fosterhome/services/currentuser/currentuserServices.dart';
-import 'package:fosterhome/services/token_id_username_prefs/shared_prefs.dart';
 
 import 'package:fosterhome/services/token_id_username_prefs/usernamePrefs.dart';
 import 'package:fosterhome/views/HomePage/SearchPage/SearchPage.dart';
@@ -35,47 +34,33 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   //textediting controller
+
   final TextEditingController searchText = TextEditingController();
+
+  //consts Color
+
   final ConstantColors constantColors = ConstantColors();
+
+  //logger
+
   var log = Logger();
 
-  //read username and userId
-  // ignore: unused_field
-  PrefService _prefService = PrefService();
+  //reading secured keys for userName from SharedPrefs
 
   UserNamePref _userNamePref = UserNamePref();
+
+  //profileModel
+
   Future<ProfileModel>? profileModel;
-  String? username = '';
 
   //Api call
-  final Api _api = Api();
 
-  //TabBar Items
+  final Api _api = Api();
+  String? username = '';
+
+  //TabBar controller
 
   TabController? _tabController;
-
-  /*final _navBarItems = [
-    BottomNavigationBarItem(
-        icon: Icon(
-          Icons.home,
-        ),
-        label: "Home"),
-    BottomNavigationBarItem(
-        icon: Icon(
-          Icons.location_history,
-        ),
-        label: "Nearby"),
-    BottomNavigationBarItem(
-        icon: Icon(
-          Icons.notification_important_outlined,
-        ),
-        label: "Notification"),
-    BottomNavigationBarItem(
-        icon: Icon(
-          Icons.person,
-        ),
-        label: "Profile"),
-  ];*/
 
   @override
   void initState() {
@@ -210,58 +195,6 @@ class _HomePageState extends State<HomePage>
                           ),
                         ),
                       ),
-                      // Padding(
-                      //   padding: const EdgeInsets.only(
-                      //       top: 5, left: 10, right: 10, bottom: 10),
-                      //   child: Container(
-                      //     width: MediaQuery.of(context).size.width * 0.9,
-                      //     child: TextFormField(
-                      //       cursorHeight: 15,
-                      //       cursorColor: constantColors.purple,
-                      //       cursorWidth: 1,
-                      //       controller: searchText,
-                      //       onEditingComplete: () async {
-                      //         print(
-                      //             "/user/searchuser?username=${searchText.text}");
-                      //         var response = await _api.search();
-                      //         List<dynamic>? searchoutput =
-                      //             json.decode(response.body);
-                      //         print(searchoutput);
-                      //         print(response.body);
-                      //       },
-                      //       textAlign: TextAlign.left,
-                      //       style: TextStyle(color: constantColors.lightpurple),
-                      //       decoration: InputDecoration(
-                      //           hintText: "Search users, pets, ...",
-                      //           contentPadding: EdgeInsets.all(8.0),
-                      //           hintStyle: TextStyle(
-                      //               color: constantColors.purple, height: 1.4),
-                      //           fillColor: constantColors.skyblue,
-                      //           prefixIcon: Padding(
-                      //             padding: const EdgeInsets.all(15.0),
-                      //             child: SizedBox(
-                      //                 height: 2.5,
-                      //                 width: 2.5,
-                      //                 child: SvgPicture.asset(
-                      //                   "assets/icons/search.svg",
-                      //                   height: 1.5,
-                      //                   width: 1.5,
-                      //                   color: constantColors.lightpurple,
-                      //                 )),
-                      //           ),
-                      //           enabledBorder: OutlineInputBorder(
-                      //               borderRadius: BorderRadius.circular(10),
-                      //               borderSide: BorderSide(
-                      //                 color: constantColors.lightpurple,
-                      //               )),
-                      //           focusedBorder: OutlineInputBorder(
-                      //               borderRadius: BorderRadius.circular(10),
-                      //               borderSide: BorderSide(
-                      //                 color: constantColors.purple,
-                      //               ))),
-                      //     ),
-                      //   ),
-                      // ),
                       TabBar(
                         controller: _tabController,
                         indicatorColor: constantColors.purple,

@@ -20,11 +20,20 @@ class Global extends StatefulWidget {
 }
 
 class _GlobalState extends State<Global> {
+  //Api models
+
   Future<GetAllUsers>? getAllUsersModel;
   Future<ProfileModel>? profileModel;
+
+  //reading secured keys for userId from SharedPrefs
+
   UserIdPref _idPref = UserIdPref();
 
+  //consts colors
+
   final ConstantColors constantColors = ConstantColors();
+
+  //elements required for Api call
 
   String? userID = '';
 

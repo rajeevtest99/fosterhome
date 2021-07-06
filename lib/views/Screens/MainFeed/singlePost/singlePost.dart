@@ -27,12 +27,27 @@ class SinglePostScreen extends StatefulWidget {
 }
 
 class _SinglePostScreenState extends State<SinglePostScreen> {
+  //Api Call
+
   final Api _api = Api();
+
+  //reading secured keys for userId from SharedPrefs
+
   UserIdPref _idPref = UserIdPref();
+
+  //consts Colors
+
   final ConstantColors constantColors = ConstantColors();
+
+  //Api Models
+
   Future<SinglePost>? singlePost;
   Future<UserProfileModel>? userProfileModel;
+
+  //text contreoller
+
   TextEditingController commentCont = TextEditingController();
+
   @override
   void initState() {
     super.initState();

@@ -33,15 +33,25 @@ class AltProfile extends StatefulWidget {
 }
 
 class _AltProfileState extends State<AltProfile> {
+  //consts Colors
+
   final ConstantColors constantColors = ConstantColors();
+
+  //Api Models
+
   Future<UserProfileModel>? userProfileModel;
   Future<CurrentUserPostModel>? currentUserPostModel;
+
+  //reading secured keys for userId from SharedPrefs
+
   UserIdPref _idPref = UserIdPref();
+
+  //elements required for Api
+
   bool isLiked = false;
   String? userID = '';
   final Api _api = Api();
   bool isFollowing = false;
-  bool oneLine = false;
 
   @override
   void initState() {

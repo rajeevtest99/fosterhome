@@ -12,7 +12,12 @@ class About extends StatefulWidget {
 }
 
 class _AboutState extends State<About> {
+  //consts Colors
+
   final ConstantColors constantColors = ConstantColors();
+
+  //bool for hiding social media
+
   bool? hideSocialMedia = true;
 
   @override

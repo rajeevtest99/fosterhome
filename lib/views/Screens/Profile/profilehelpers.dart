@@ -14,8 +14,13 @@ import 'package:fosterhome/views/Screens/Profile/following/following.dart';
 import 'package:page_transition/page_transition.dart';
 
 class ProfileHelpers extends ChangeNotifier {
+  //Api models
+
   Future<ProfileModel>? profileModel;
   Future<CurrentUserPostModel>? currentUserPostModel;
+
+  //consts Colors
+
   final ConstantColors constantColors = ConstantColors();
 
   Future<UserProfileModel>? userProfileModel;

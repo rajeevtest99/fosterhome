@@ -3,9 +3,8 @@ import 'package:flutter/services.dart';
 
 import 'package:fosterhome/views/HomePage/HomePagehelpers.dart';
 
-import 'package:fosterhome/views/Screens/MainFeed/feed_helpers.dart';
 import 'package:fosterhome/views/Screens/MainFeed/singlePost/singlePostHelpers.dart';
-import 'package:fosterhome/views/Screens/Profile/Followers/follwers_helpers.dart';
+
 import 'package:fosterhome/views/Screens/Profile/altProfile/alt_profile_helpers.dart';
 import 'package:fosterhome/views/Screens/Profile/profilehelpers.dart';
 import 'package:fosterhome/views/Screens/Profile/updateProfile/updateProfile_helpers.dart';
@@ -39,15 +38,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SignUpTextFields()),
         ChangeNotifierProvider(create: (_) => AboutHelpers()),
         ChangeNotifierProvider(create: (_) => HomePageHelpers()),
-        ChangeNotifierProvider(create: (_) => FeedHelpers()),
         ChangeNotifierProvider(
           create: (_) => SinglePageHelpers(),
         ),
         ChangeNotifierProvider(
           create: (_) => ProfileHelpers(),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => FollowerHelpers(),
         ),
         ChangeNotifierProvider(
           create: (_) => AltProfileHelpers(),

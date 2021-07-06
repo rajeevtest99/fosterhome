@@ -327,13 +327,7 @@ class UpdateProfileHelpers extends ChangeNotifier {
                       print(response);
                     }
                   }
-                  // if (about.text != "" &&
-                  //     instaID.text != "" &&
-                  //     _instaLink.text != "" &&
-                  //     _fbID.text != "" &&
-                  //     _fbLink.text != "" &&
-                  //     _twitterID.text != "" &&
-                  //     _twitterLink.text != "") {
+
                   Map<String, dynamic> aboutAdd = {
                     "userId": id,
                     "about": about.text,

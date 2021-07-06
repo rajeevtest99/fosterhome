@@ -125,7 +125,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      backgroundColor: constantColors.white,
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         physics: ClampingScrollPhysics(),
         child: Container(
@@ -142,7 +142,7 @@ class _LoginState extends State<Login> with TickerProviderStateMixin {
                 position: _mainContainerAnim,
                 child: Container(
                   decoration: BoxDecoration(
-                      color: constantColors.white,
+                      color: Colors.white,
                       boxShadow: [
                         BoxShadow(
                             color: constantColors.lightpurple,

@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:fosterhome/consts/colors.dart';
 
 class SinglePageHelpers extends ChangeNotifier {
+  //consts Colors
+
   final ConstantColors constantColors = ConstantColors();
+
   Widget comment(BuildContext context, String image, String name, String time,
       String comment) {
     return Container(

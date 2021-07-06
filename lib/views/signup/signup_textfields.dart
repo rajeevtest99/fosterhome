@@ -3,7 +3,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fosterhome/consts/colors.dart';
 
 class SignUpTextFields extends ChangeNotifier {
+  //consts Colors
+
   final ConstantColors constantColors = ConstantColors();
+
+  //bool for hiding/unhiding password
 
   bool isVisibility = true;
 

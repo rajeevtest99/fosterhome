@@ -36,16 +36,27 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
+  //reading secured keys for userId, token and userName from SharedPrefs
+
   PrefService _prefService = PrefService();
   UserIdPref _idPref = UserIdPref();
   UserNamePref _namePref = UserNamePref();
+
+  //consts Colors
+
   final ConstantColors constantColors = ConstantColors();
 
+  //Api call
+
   final Api _api = Api();
+
+  //Api Models
 
   Future<ProfileModel>? profileModel;
   Future<CurrentUserPostModel>? currentUserPostModel;
   Future<UserProfileModel>? userProfileModel;
+
+  //elements required for Api
 
   String? userID = '';
 
@@ -54,7 +65,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    //checkUserData();
+
     profileModel = CurrentUserServices().getCurrentUserProfile();
     currentUserPostModel = CurrentUserPostServices().getCurrentUserPost();
 
@@ -64,15 +75,6 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   _checkUserID() async {
     userID = await (_idPref.readId(USER_ID_KEY));
     print(userID);
-  }
-
-  checkUserData() async {
-    var response = await _api.get("/user/getuser/${widget.userName}");
-    if (response == 200 || response == 201) {
-      Map<String, dynamic>? data = json.decode(response);
-      print(data);
-      print(widget.userName);
-    }
   }
 
   logout() async {

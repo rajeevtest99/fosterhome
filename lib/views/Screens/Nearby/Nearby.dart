@@ -30,16 +30,30 @@ class Nearby extends StatefulWidget {
 }
 
 class _NearbyState extends State<Nearby> with SingleTickerProviderStateMixin {
+  //elemnts required for api call
+
   bool loading = true;
   bool? update;
+
+  //Api call
+
   final Api _api = Api();
+
+  //reading secured keys for userId from SharedPrefs
+
   UserIdPref _idPref = UserIdPref();
+
+  //Storing address
+
   String? currentAddress = "my address";
   String? currentCity = "";
   double? latitude = 0;
   double? longitude = 0;
   String? currentCountry = "";
   Position? currentPositon;
+
+  //Api Models
+
   Future<GetAllUsers>? getAllUsersModel;
   Future<ProfileModel>? profileModel;
 

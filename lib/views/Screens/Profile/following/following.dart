@@ -22,12 +22,25 @@ class Following extends StatefulWidget {
 }
 
 class _FollowingState extends State<Following> {
+  //consts Colors
+
   final ConstantColors constantColors = ConstantColors();
+
+  //Api call
+
   final Api _api = Api();
+
+  //Api models
 
   Future<ProfileModel>? profileModel;
   Future<UserProfileModel>? otheruser;
+
+  //reading secured keys for userId from SharedPrefs
+
   UserIdPref _idPref = UserIdPref();
+
+  //elemnts required for api
+
   String? userID = '';
   bool isFollowing = false;
   var users = '';
@@ -64,9 +77,6 @@ class _FollowingState extends State<Following> {
         ),
         body: Container(
           color: Colors.white,
-          // child:
-          //  Provider.of<FollowerHelpers>(context, listen: true)
-          //     .main(context, userProfileModel, isFollowing, userID!),
           child: FutureBuilder<ProfileModel>(
             future: profileModel,
             builder: (context, snapshot) {

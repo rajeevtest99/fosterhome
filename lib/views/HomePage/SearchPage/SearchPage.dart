@@ -24,21 +24,33 @@ class SearchPage extends SearchDelegate<Future<SearchUser?>?> {
   InputDecorationTheme? get searchFieldDecorationTheme => InputDecorationTheme(
       border: OutlineInputBorder(borderSide: BorderSide.none),
       hintStyle: TextStyle(color: _colors.lightpurple));
+  //const colors
 
   final ConstantColors _colors = ConstantColors();
-  Future<SearchUser?>? searchuser;
-  bool isFollowing = false;
 
+  //search Model
+
+  Future<SearchUser?>? searchuser;
+
+  //elemnts required for API call
+
+  bool isFollowing = false;
   String? userID = '';
   String? userName = '';
+
+  //reading secured keys for userId and userName from SharedPrefs
+
   UserIdPref _idPref = UserIdPref();
   UserNamePref _userNamePref = UserNamePref();
+
+  //fetching userId key
 
   _checkUserID() async {
     userID = await (_idPref.readId(USER_ID_KEY));
     print(userID);
   }
 
+  //fetching userName key
   _checkUserName() async {
     userName = await _userNamePref.readUserName(USER_NAME_KEY);
     print(userName);

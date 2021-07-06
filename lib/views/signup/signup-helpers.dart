@@ -4,6 +4,8 @@ import 'package:fosterhome/views/login/login.dart';
 import 'package:page_transition/page_transition.dart';
 
 class SignUpHelpers extends ChangeNotifier {
+  //consts Colors
+
   final ConstantColors constantColors = ConstantColors();
 
   Widget alreadyuser(

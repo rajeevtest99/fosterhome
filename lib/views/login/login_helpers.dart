@@ -6,7 +6,12 @@ import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 
 class LoginHelpers extends ChangeNotifier {
+  //consts Colors
+
   final ConstantColors constantColors = ConstantColors();
+
+  //password hide logic boolean
+
   bool isVisibility = true;
 
   Widget welcomeLottie(BuildContext context) {

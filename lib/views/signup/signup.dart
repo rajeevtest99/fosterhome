@@ -176,7 +176,7 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      backgroundColor: constantColors.white,
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         physics: ClampingScrollPhysics(),
         child: Container(
@@ -193,7 +193,7 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
                 position: _mainContainerAnim,
                 child: Container(
                   decoration: BoxDecoration(
-                      color: constantColors.white,
+                      color: Colors.white,
                       boxShadow: [
                         BoxShadow(
                             color: constantColors.lightpurple,
@@ -293,7 +293,7 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
                           context: context,
                           builder: (context) {
                             return Dialog(
-                              backgroundColor: constantColors.white,
+                              backgroundColor: Colors.white,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(5)),
                               insetPadding: EdgeInsets.only(
@@ -343,8 +343,8 @@ class _SignUpState extends State<SignUp> with TickerProviderStateMixin {
                                           },
                                           child: Text(
                                             "Lets get started",
-                                            style: TextStyle(
-                                                color: constantColors.white),
+                                            style:
+                                                TextStyle(color: Colors.white),
                                           ))
                                     ],
                                   ),

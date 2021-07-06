@@ -17,7 +17,11 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  //consts Colors
+
   final ConstantColors constantColors = ConstantColors();
+
+  //reading secured keys for token from SharedPrefs
   PrefService _prefService = PrefService();
 
   @override

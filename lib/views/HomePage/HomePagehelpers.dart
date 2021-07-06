@@ -4,8 +4,14 @@ import 'package:fosterhome/consts/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomePageHelpers extends ChangeNotifier {
+  //const Colors
+
   final ConstantColors constantColors = ConstantColors();
+
+  //text Controller
+
   final TextEditingController searchText = TextEditingController();
+
   Widget appBar(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.white,

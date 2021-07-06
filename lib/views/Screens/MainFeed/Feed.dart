@@ -33,25 +33,27 @@ class Feed extends StatefulWidget {
 
 class _FeedState extends State<Feed> {
   //const colors
+
   final ConstantColors constantColors = ConstantColors();
+
+  //reading secured keys for userId from SharedPrefs
+
   UserIdPref _idPref = UserIdPref();
-  String? userID = '';
-  String likes = '';
 
   //api call
 
   Api _api = Api();
+  String? userID = '';
+  String likes = '';
 
-  //posts services
+  //Api models
+
   Future<DetailPost?>? _detailPost;
-  bool? loading;
   Future<SinglePost>? singlePost;
-
-  String? userPhoto;
-
   Future<UserProfileModel?>? userProfileModel;
 
   //animation
+
   bool? isLiked;
 
   @override

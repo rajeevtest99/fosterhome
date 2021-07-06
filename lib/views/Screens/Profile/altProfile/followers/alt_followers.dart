@@ -18,11 +18,25 @@ class Altfollowers extends StatefulWidget {
 }
 
 class _AltfollowersState extends State<Altfollowers> {
+  //consts Colors
+
   final ConstantColors constantColors = ConstantColors();
+
+  //Api call
+
   final Api _api = Api();
+
+  //Api models
+
   Future<UserProfileModel>? otherusers;
   Future<UserProfileModel>? following;
+
+  //reading secured keys for userId from SharedPrefs
+
   UserIdPref _idPref = UserIdPref();
+
+  //elemnts required for Api call
+
   String? userID = '';
   bool isFollowing = false;
 
